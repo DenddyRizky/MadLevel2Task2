@@ -2,6 +2,7 @@ package com.example.madlevel2task2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews(){
         binding.rvQuestions.layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
         binding.rvQuestions.adapter = questionAdapter
+        binding.rvQuestions.addItemDecoration(DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL))
         createItemTouchHelper().attachToRecyclerView(binding.rvQuestions)
 
         for (i in Question.QUESTIONS.indices){
@@ -44,8 +46,10 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                questions.removeAt(position)
-                questionAdapter.notifyDataSetChanged()
+                if (Question.ANSWERS[position] == "false"){
+                    questions.removeAt(position)
+                    questionAdapter.notifyDataSetChanged()
+                }
             }
         }
         return ItemTouchHelper(callback)
