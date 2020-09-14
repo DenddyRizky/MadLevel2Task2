@@ -2,11 +2,15 @@ package com.example.madlevel2task2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madlevel2task2.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_question.*
 
 class MainActivity : AppCompatActivity() {
     private val questions = arrayListOf<Question>()
@@ -46,10 +50,25 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                if (Question.ANSWERS[position] == "false"){
+                //If the user swipes to the LEFT and the answer is CORRECT
+                if (direction == ItemTouchHelper.LEFT && Question.ANSWERS[position] == "false"){
                     questions.removeAt(position)
                     questionAdapter.notifyDataSetChanged()
                 }
+                //If the user swipes to the LEFT and the answer is INCORRECT
+                if (direction == ItemTouchHelper.LEFT && Question.ANSWERS[position] == "true"){
+                    Snackbar.make(tvQuestion, "The given answer is incorrect, the question shown will not be deleted", Snackbar.LENGTH_SHORT).show()
+                }
+                //If the user swipes to the RIGHT and the answer is CORRECT
+                if (direction == ItemTouchHelper.RIGHT && Question.ANSWERS[position] == "true"){
+                    questions.removeAt(position)
+                    questionAdapter.notifyDataSetChanged()
+                }
+                //If the user swipes to the RIGHT and the answer is INCORRECT
+                if (direction == ItemTouchHelper.RIGHT && Question.ANSWERS[position] == "false"){
+                    Snackbar.make(tvQuestion, "The given answer is incorrect, the question shown will not be deleted", Snackbar.LENGTH_SHORT).show()
+                }
+
             }
         }
         return ItemTouchHelper(callback)
