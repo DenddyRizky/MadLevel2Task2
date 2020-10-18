@@ -50,25 +50,12 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
 
-                //If the user swipes to the LEFT and the answer is CORRECT
-                if (direction == ItemTouchHelper.LEFT && Question.ANSWERS[position] == "false"){
+                if (direction == ItemTouchHelper.LEFT && Question.ANSWERS[position] == "false" || direction == ItemTouchHelper.RIGHT && Question.ANSWERS[position] == "true"){
                     questions.removeAt(position)
-                    questionAdapter.notifyDataSetChanged()
-                }
-                //If the user swipes to the LEFT and the answer is INCORRECT
-                if (direction == ItemTouchHelper.LEFT && Question.ANSWERS[position] == "true"){
+                }   else{
                     Snackbar.make(tvQuestion, "The given answer is incorrect, the question shown will not be deleted", Snackbar.LENGTH_SHORT).show()
                 }
-                //If the user swipes to the RIGHT and the answer is CORRECT
-                if (direction == ItemTouchHelper.RIGHT && Question.ANSWERS[position] == "true"){
-                    questions.removeAt(position)
-                    questionAdapter.notifyDataSetChanged()
-                }
-                //If the user swipes to the RIGHT and the answer is INCORRECT
-                if (direction == ItemTouchHelper.RIGHT && Question.ANSWERS[position] == "false"){
-                    Snackbar.make(tvQuestion, "The given answer is incorrect, the question shown will not be deleted", Snackbar.LENGTH_SHORT).show()
-                }
-
+                questionAdapter.notifyDataSetChanged()
             }
         }
         return ItemTouchHelper(callback)

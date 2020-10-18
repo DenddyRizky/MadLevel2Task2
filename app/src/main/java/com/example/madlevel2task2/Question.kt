@@ -7,12 +7,14 @@ data class Question(
     companion object{
         val QUESTIONS = arrayOf(
             "2 + 2 equals 4",
-            "3 + 3 equals 9"
+            "3 + 3 equals 9",
+            "Blue whales are the largest mammals"
         )
 
         val ANSWERS = arrayOf(
             "true",
-            "false"
+            "false",
+            "true"
         )
     }
 }
